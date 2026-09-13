@@ -1,0 +1,16 @@
+{
+  "OutputFoldersPerTargetSystem": {
+    "Local Machine": [
+      "out\\build\\x64-Debug",
+      "out\\install\\x64-Debug"
+    ]
+  },
+  "ExpandedNodes": [
+    "",
+    "\\imgui",
+    "\\imgui\\examples",
+    "\\imgui\\examples\\example_allegro5"
+  ],
+  "SelectedNode": "\\imgui\\examples\\example_allegro5\\example_allegro5.vcxproj",
+  "PreviewInSolutionExplorer": false
+}
