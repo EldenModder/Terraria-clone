@@ -5,11 +5,19 @@
 #include <rlImGui.h>
 #include <ImGuiThemes.h>
 
+#include <gameMain.h>
 
-int main()
+int main(void)
 {
+
+#if PRODUCTION_BUILD == 1
+	SetTraceLogLevel(LOG_NONE);
+#endif
+
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(800, 450, "LLGD Tutorial");
+	SetExitKey(KEY_F8);
+	SetTargetFPS(240);
 
 	#pragma region imgui
 	rlImGuiSetup(true);
@@ -21,10 +29,15 @@ int main()
 	setup_catppuccin_mocha_theme();
 	#pragma endregion
 
+	if (!initGame())
+	{
+		return 0;
+	}
+
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
-		ClearBackground(DARKGRAY);
+
 	#pragma region imgui
 		rlImGuiBegin();
 
@@ -36,19 +49,10 @@ int main()
 
 	#pragma endregion
 
-		DrawRectangle(75, 75, 100, 100, {0, 255, 0, 127});
-		DrawRectangle(50, 50, 100, 100, {255, 0, 0, 127});
-
-	#pragma region imgui widgets
-		ImGui::Begin("test");
-
-		ImGui::Text("hello");
-		ImGui::Button("button");
-		int t = 0;
-		ImGui::TreeNode("test");
-
-		ImGui::End();
-	#pragma endregion
+		if (!updateGame())
+		{
+			CloseWindow();
+		}
 
 	#pragma region imgui
 		rlImGuiEnd();
@@ -57,12 +61,13 @@ int main()
 		EndDrawing();
 	}
 
+	closeGame();
+
 #pragma region imgui
 	rlImGuiShutdown();
 
 #pragma endregion
 
-	CloseWindow();
 
 	return 0;
 }
